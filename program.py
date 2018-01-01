@@ -96,7 +96,28 @@ structure_table = pd.DataFrame(data=structure_list_of_all_periods, columns=['Num
 #     list = structure[3]
 #     list = list.replace('[','')
 #     list = list.replace(']','')
-#     stocks.append(list.split(','))
+#     stocks.append(list.split(', '))
 # intersect = stocks[0].inter
 # for i in range(1, len(stocks) - 1):
 #     intersect = int
+
+# for period_index in range(0, num_of_periods):
+#     test = structure_table['name'][period_index]
+#     if (test.find('DLG') != -1 and test.find('FLC') != -1 and test.find('HAG') != -1
+#         and test.find('HAI') != -1  and test.find('HAR') != -1  and test.find('HHS') != -1
+#         and test.find('HQC') != -1 and test.find('SHS') != -1 and test.find('TSC') != -1
+#         and test.find('VHG') != -1):
+#         print period_index
+
+structure_list_of_all_periods06 = []
+for period_index in range(0, num_of_periods):
+    graph_of_threshold06 = graph_list_of_all_periods[period_index][5] # graph of threshold o.6
+    if(len(graph_of_threshold06.nodes) != 0):
+        max_cliques = gm.find_maximum_cliques(graph_of_threshold06)
+        num_of_max_cliques = len(max_cliques)
+        size_of_max_clique = len(max_cliques[0])
+        union = np.unique(max_cliques)
+        size_union = len(union)
+        stock_in_union = gm.get_node_name_list(list_clique=union, list_dataframe=csv_list)
+        structure_list_of_all_periods06.append([num_of_max_cliques, size_of_max_clique, size_union, str(stock_in_union)])
+structure_table2 = pd.DataFrame(data=structure_list_of_all_periods06, columns=['Num of max cliques', 'Size of max clique', 'size union', 'name'])
